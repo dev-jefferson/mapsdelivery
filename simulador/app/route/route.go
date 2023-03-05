@@ -2,6 +2,7 @@ package route
 
 import (
 	"bufio"
+	"encoding/json"
 	"errors"
 	"os"
 	"strconv"
@@ -64,4 +65,30 @@ func (r *Route) LoadPositions() error {
 
 	}
 	return nil
+}
+
+func (r *Route) ExportJsonPositions() ([]string, error) {
+	var route PartialRoutePosition
+	var result []string
+	total := len(r.Positions) //obtem total de posições
+
+	for i, v := range r.Positions { //percorre o array tendo o indice e o valor
+		route.ID = r.ID
+		route.ClientID = r.ClientID
+		route.Position = []float64{v.Lat, v.Long}
+		route.Finished = false
+
+		if total-1 == i {
+			route.Finished = true
+		}
+
+		jsonRoute, err := json.Marshal(route) //converte para um slice de byte
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, string(jsonRoute))
+	}
+
+	return result, nil
 }
