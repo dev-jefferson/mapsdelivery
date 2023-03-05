@@ -11,5 +11,8 @@ Executar container:
 Acessar container:
 - docker exec -it simulator bash
 
+Executar dentro do container
+- go run main.go
+
 Utilizando GO Mod para o controle de gerenciamento de pacotes 
 - go mod init github.com/dev-jefferson/mapsdelivery
